@@ -1,10 +1,12 @@
 (ns ttt-server.core
 	(:gen-class)
-	(:use [ttt-server.game-response])
+	(:use [ttt-server.game-response]
+				[ttt-server.index-response])
 	(:import com.jayden.server.Server))
 	
 (defn add-routes [server] 
-	(.addRoute server "/game" (new-response-handler)))
+	(.addRoute server "/" (new-index-response-handler))
+	(.addRoute server "/game" (new-game-response-handler)))
 
 (defn get-routes [server]
 	(.getRoutes server))

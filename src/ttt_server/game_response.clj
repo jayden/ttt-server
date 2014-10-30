@@ -1,6 +1,6 @@
 (ns ttt-server.game-response)
 
-(defn new-response-handler []
+(defn new-game-response-handler []
 	(reify
 		com.jayden.server.Response
 

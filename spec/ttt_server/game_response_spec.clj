@@ -13,11 +13,11 @@
 
 	(it "returns a byte array as a response"
 		(should= "Hello world!"
-						(String. (.getResponse (new-response-handler) @test-request))))
+						(String. (.getResponse (new-game-response-handler) @test-request))))
 	(it "has a content type"
 		(should= "text/plain"
-						(.getContentType (new-response-handler))))
-	(it "has a status code"
+						(.getContentType (new-game-response-handler))))
+	(it "has an OK status code"
 		(should= 200
-						(.getStatus (new-response-handler))))
+						(.getStatus (new-game-response-handler))))
 )
