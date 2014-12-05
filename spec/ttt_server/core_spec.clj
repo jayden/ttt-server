@@ -11,7 +11,7 @@
 							(.containsKey (get-routes server) "/"))
 			(should= true
 							(.containsKey (get-routes server) "/game"))))
-	
+
 	(it "isn't initially active"
 		(let [server (Server. 5000)]
 			(should= false (.isActive server))))
