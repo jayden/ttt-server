@@ -12,9 +12,9 @@
 (defn get-html-space [position board]
 	(cond
 		(= x (get-space position board))
-			(str "x<input type=\"hidden\" value=\"x\" name=\"marked-space\"/>")
+			(str "x<input type=\"hidden\" value=\"x\" name=\"marked-space\"" position "/>")
 		(= o (get-space position board))
-			(str "o<input type=\"hidden\" value=\"o\" name=\"marked-space\"/>")
+			(str "o<input type=\"hidden\" value=\"o\" name=\"marked-space\"" position "/>")
 		:else
 			(if (game-over? board)
 				"&nbsp;"

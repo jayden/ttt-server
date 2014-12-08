@@ -23,10 +23,10 @@
 
 	(context "html representation of spaces"
 		(it "shows x's in correct spaces"
-			(should= (str "x<input type=\"hidden\" value=\"x\" name=\"marked-space\"/>")
+			(should= (str "x<input type=\"hidden\" value=\"x\" name=\"marked-space\"" 0 "/>")
 				(get-html-space 0 @test-board)))
 		(it "shows o's in correct spaces"
-			(should= (str "o<input type=\"hidden\" value=\"o\" name=\"marked-space\"/>")
+			(should= (str "o<input type=\"hidden\" value=\"o\" name=\"marked-space\"" 4 "/>")
 				(get-html-space 4 @test-board)))
 		(it "shows radio buttons for empty spaces"
 			(should= (str "<input type=\"radio\" value=\"1\" name=\"empty-space\"/>")

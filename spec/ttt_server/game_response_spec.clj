@@ -18,24 +18,27 @@
 	(it "has a content type"
 		(should= "text/html"
 			(.getContentType (new-game-response-handler))))
+	
 	(it "has an OK status code"
 		(should= 200
 			(.getStatus (new-game-response-handler))))
-	(it "updates board by choosing move"
-		(should= 4
-			(make-move @test-board "o")))
 
 	(it "splits the body of the post response"
 		(should= {"marked-space0" "x", "marked-space4" "o", "move" "Move"}
 			(parse-body @post-request)))
 
 	(it "gets current board with previous moves"
-		(should= {0 "x", 4 "o"}
+		(should= ["x" nil nil nil "o" nil nil nil nil]
 			(get-current-board @post-request)))
 
 	(it "gets updated board with new user input move"
-		(should= {0 "x", 4 "o"}
+		(should= ["x" nil nil nil "o" nil nil nil nil]
 			(get-updated-board @post-request))
 		(let [updated-request (doto @post-request (.put "Body" "marked-space0=x&marked-space4=o&empty-space=1&move=Move"))]
-			(should= {0 "x", 1 "x", 4 "o"}
-				(get-updated-board updated-request)))))
+			(should= ["x" "x" nil nil "o" nil nil nil nil]
+				(get-updated-board updated-request))))
+
+	(it "lets the computer move"
+		(let [updated-request (doto @post-request (.put "Body" "marked-space0&move=Move"))]
+			(should= ["x" nil nil nil "o" nil nil nil nil]
+				(make-move @test-board updated-request)))))
