@@ -20,7 +20,6 @@
 				"&nbsp;"
 				(str "<input type=\"radio\" value=\"" position "\" name=\"empty-space\"/>"))))
 
-
 (defn get-html-board [board]
 	(str "<html><body><center><form name=\"board\" action=\"/game\" method=\"post\">"
 		 "<table>"	

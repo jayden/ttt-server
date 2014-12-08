@@ -10,8 +10,8 @@
 					  nil nil nil])
 
   	(with empty-board [nil nil nil
-                     nil nil nil
-                     nil nil nil])
+                      nil nil nil
+                      nil nil nil])
 
 	(it "gets the spaces of the board"
 		(should= @x
@@ -42,5 +42,3 @@
 			 "</table>"
 			 "<input type=\"submit\" value=\"Move\" name=\"move\" /></form></center></body></html>")
 			(get-html-board @test-board))))
-
-	

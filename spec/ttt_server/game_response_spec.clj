@@ -9,27 +9,33 @@
 					  nil nil nil
 					  nil nil nil])
 	(before
-		(doto @test-request
-			(.put "Method" "GET")
-			(.put "URI" "/game")
-			(.put "Protocol" "HTTP/1.1")))
-
-	(before
 		(doto @post-request
 			(.put "Method" "POST")
 			(.put "URI" "/game")
 			(.put "Protocol" "HTTP/1.1")
-			(.put "Body" "move-selection=1&move=Move")))
+			(.put "Body" "marked-space0=x&marked-space4=o&move=Move")))
 
 	(it "has a content type"
 		(should= "text/html"
-						(.getContentType (new-game-response-handler))))
+			(.getContentType (new-game-response-handler))))
 	(it "has an OK status code"
 		(should= 200
-						(.getStatus (new-game-response-handler))))
+			(.getStatus (new-game-response-handler))))
 	(it "updates board by choosing move"
 		(should= 4
 			(make-move @test-board "o")))
-	(it "gets the body of post response"
-		(should= "move-selection=1&move=Move"
-			(String. (get-body @post-request)))))
+
+	(it "splits the body of the post response"
+		(should= {"marked-space0" "x", "marked-space4" "o", "move" "Move"}
+			(parse-body @post-request)))
+
+	(it "gets current board with previous moves"
+		(should= {0 "x", 4 "o"}
+			(get-current-board @post-request)))
+
+	(it "gets updated board with new user input move"
+		(should= {0 "x", 4 "o"}
+			(get-updated-board @post-request))
+		(let [updated-request (doto @post-request (.put "Body" "marked-space0=x&marked-space4=o&empty-space=1&move=Move"))]
+			(should= {0 "x", 1 "x", 4 "o"}
+				(get-updated-board updated-request)))))
