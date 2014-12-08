@@ -9,7 +9,7 @@
 					  nil @o nil
 					  nil nil nil])
 
-  (with empty-board [nil nil nil
+  	(with empty-board [nil nil nil
                      nil nil nil
                      nil nil nil])
 
@@ -21,10 +21,26 @@
 		(should= 8
 				(get-space 8 @test-board)))
 
-	(it "gets html representation of board"
-		(should= "<html><form name=\"board\" action=\"/game\" method=\"post\"><table><tr><td>x</td><td>1</td><td>2</td></tr><tr><td>3</td><td>o</td><td>5</td></tr><tr><td>6</td><td>7</td><td>8</td></tr></table><input type=\"text\" name=\"move-selection\" value=\"\"><input type=\"submit\" value=\"Move\" name=\"move\" /></form></html>"
-			(get-html-board @test-board)))
+	(context "html representation of spaces"
+		(it "shows x's in correct spaces"
+			(should= (str "x<input type=\"hidden\" value=\"x\" name=\"marked-space\"/>")
+				(get-html-space 0 @test-board)))
+		(it "shows o's in correct spaces"
+			(should= (str "o<input type=\"hidden\" value=\"o\" name=\"marked-space\"/>")
+				(get-html-space 4 @test-board)))
+		(it "shows radio buttons for empty spaces"
+			(should= (str "<input type=\"radio\" value=\"1\" name=\"empty-space\"/>")
+				(get-html-space 1 @test-board))))
 
-	(it "gets html representation with text boxes"
-		(should= (str "<input type=\"text\" name=" 0 " value=" @x " style=\"height: 15px;width: 15px;margin: -1px\" />")
-			(get-html-space 0 @test-board))))
+	(it "shows html representation of board"
+		(should= 
+			(str "<html><body><center><form name=\"board\" action=\"/game\" method=\"post\">"
+			 "<table>"	
+			 "<tr><td>"(get-html-space 0 @test-board)"</td><td>"(get-html-space 1 @test-board)"</td><td>"(get-html-space 2 @test-board)"</td></tr>"
+			 "<tr><td>"(get-html-space 3 @test-board)"</td><td>"(get-html-space 4 @test-board)"</td><td>"(get-html-space 5 @test-board)"</td></tr>"
+			 "<tr><td>"(get-html-space 6 @test-board)"</td><td>"(get-html-space 7 @test-board)"</td><td>"(get-html-space 8 @test-board)"</td></tr>"
+			 "</table>"
+			 "<input type=\"submit\" value=\"Move\" name=\"move\" /></form></center></body></html>")
+			(get-html-board @test-board))))
+
+	

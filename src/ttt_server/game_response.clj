@@ -8,8 +8,7 @@
 		com.jayden.server.Response
 
 		(getResponse [this request]
-			(if (.get request )
-			(.getBytes (get-html-board (make-board 9)))))
+			(.getBytes (get-html-board (make-board 9))))
 
 		(getContentType [this] "text/html")
 
