@@ -2,7 +2,7 @@
 	(:use [ttt-server.board-presenter]
 		  [clojure_tictac.players :only (best-move)]
 		  [clojure_tictac.board]
-		  [clojure_tictac.ttt-rules :only (game-over?)]
+		  [clojure_tictac.ttt-rules :only (game-over? x o)]
 		  [clojure_tictac.game-setup :only (default-board-size)]))
 
 (defn split-body [body]
@@ -25,25 +25,30 @@
 					board
 					(assoc board space (get (parse-body request) (str "marked-space" space))))))))
 
+(defn current-player [board]
+	(if (even? (count (filter #(not= nil %) board)))
+		x
+		o))
+
 (defn get-updated-board [request]
 	(let [board (get-current-board request)
 		  move (get (parse-body request) "empty-space")]
 		(if (= nil move)
 			board
-			(assoc board (Integer/parseInt move) "x"))))
+			(assoc board (Integer/parseInt move) (current-player board)))))
 
 
-(defn make-move [board request]
-	(if (game-over? board)
-		board
-		(assoc board (best-move board "o") "o")))
+(defn make-move [board]
+	(if (and (not= true (game-over? board)) (= o (current-player board)))
+		(assoc board (best-move board o) o)
+		board))
 
 (defn new-game-response-handler []
 	(reify
 		com.jayden.server.Response
 
 		(getResponse [this request]
-			(.getBytes (get-html-board (get-updated-board request))))
+			(.getBytes (get-html-board (make-move (get-updated-board request)))))
 
 		(getContentType [this] "text/html")
 

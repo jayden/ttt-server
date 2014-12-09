@@ -9,9 +9,9 @@
 					  nil @o nil
 					  nil nil nil])
 
-  	(with empty-board [nil nil nil
-                      nil nil nil
-                      nil nil nil])
+  	(with o-win-board [@x @o nil
+                      nil @o @x
+                      nil @o @x])
 
 	(it "gets the spaces of the board"
 		(should= @x
@@ -23,10 +23,10 @@
 
 	(context "html representation of spaces"
 		(it "shows x's in correct spaces"
-			(should= (str "x<input type=\"hidden\" value=\"x\" name=\"marked-space\"" 0 "/>")
+			(should= (str "x<input type=\"hidden\" value=\"x\" name=\"marked-space" 0 "\"/>")
 				(get-html-space 0 @test-board)))
 		(it "shows o's in correct spaces"
-			(should= (str "o<input type=\"hidden\" value=\"o\" name=\"marked-space\"" 4 "/>")
+			(should= (str "o<input type=\"hidden\" value=\"o\" name=\"marked-space" 4 "\"/>")
 				(get-html-space 4 @test-board)))
 		(it "shows radio buttons for empty spaces"
 			(should= (str "<input type=\"radio\" value=\"1\" name=\"empty-space\"/>")
@@ -40,5 +40,11 @@
 			 "<tr><td>"(get-html-space 3 @test-board)"</td><td>"(get-html-space 4 @test-board)"</td><td>"(get-html-space 5 @test-board)"</td></tr>"
 			 "<tr><td>"(get-html-space 6 @test-board)"</td><td>"(get-html-space 7 @test-board)"</td><td>"(get-html-space 8 @test-board)"</td></tr>"
 			 "</table>"
-			 "<input type=\"submit\" value=\"Move\" name=\"move\" /></form></center></body></html>")
-			(get-html-board @test-board))))
+			 "<input type=\"submit\" value=\"Move\" name=\"move\" />"
+			 "<h5>" (get-game-conclusion @test-board) "</h5>"
+			 "</form></center></body></html>")
+			(get-html-board @test-board)))
+
+	(it "shows the conclusion of the game"
+		(should= "Winner is O!"
+			(get-game-conclusion @o-win-board))))

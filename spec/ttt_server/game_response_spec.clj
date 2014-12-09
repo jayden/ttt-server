@@ -39,6 +39,5 @@
 				(get-updated-board updated-request))))
 
 	(it "lets the computer move"
-		(let [updated-request (doto @post-request (.put "Body" "marked-space0&move=Move"))]
-			(should= ["x" nil nil nil "o" nil nil nil nil]
-				(make-move @test-board updated-request)))))
+		(should= ["x" nil nil nil "o" nil nil nil nil]
+			(make-move @test-board))))
