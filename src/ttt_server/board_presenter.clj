@@ -31,7 +31,7 @@
 (defn get-css-layout []
 	(str 
 		"<style>
-		h3 {
+		h1, h3 {
 			font-family: verdana;
 		}
 		td {
@@ -48,7 +48,17 @@
 		}
 		
 		input[type=submit] {
-			font-size: 24px;
+			width: 100px;
+			height: 30px;
+			-webkit-border-radius: 5px;
+			border-radius: 5px;
+		}
+
+		input[type=button] {
+			width: 100px;
+			height: 30px;
+			-webkit-border-radius: 5px;
+			border-radius: 5px;
 		}
 
 		input[type=radio] {
@@ -71,20 +81,23 @@
 
 		input[type=radio]:checked + label { 
    			background-image: none;
-    		background-color:#d0d0d0;
+    		background-color:#858585;
 		}
 		</style>"))
 
+(defn get-page-header []
+	(str "Welcome to Tic-Tac-Toe!"))
+
 (defn get-html-board [board]
 	(str "<!DOCTYPE html>"
-		; "<html><head><link rel=\"stylesheet\" href=\"layout.css\">"
 		 "<html><head>" (get-css-layout) "</head>"
-		 "<body><center><form name=\"board\" action=\"/game\" method=\"post\">"
+		 "<body><center><h1>" (get-page-header) "</h1><form name=\"board\" action=\"/game\" method=\"post\">"
 		 "<table>"	
 		 "<tr><td>"(get-html-space 0 board)"</td><td>"(get-html-space 1 board)"</td><td>"(get-html-space 2 board)"</td></tr>"
 		 "<tr><td>"(get-html-space 3 board)"</td><td>"(get-html-space 4 board)"</td><td>"(get-html-space 5 board)"</td></tr>"
 		 "<tr><td>"(get-html-space 6 board)"</td><td>"(get-html-space 7 board)"</td><td>"(get-html-space 8 board)"</td></tr>"
 		 "</table>"
-		 "<input type=\"submit\" value=\"Move\" name=\"move\" />"
+		 "<br></br><input type=\"submit\" value=\"Move\" name=\"move\" />"
+		 "<input type=\"button\" value=\"Reset\" onClick=\"history.go(0)\" />"
 		 "<h3>" (get-game-conclusion board) "</h3>"
 		 "</form></center></body></html>"))
