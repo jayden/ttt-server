@@ -1,8 +1,6 @@
 (ns ttt-server.game-response-spec
   (:use [speclj.core]
   		[ttt-server.game-response]))
-
-(describe "game response test"
 	(with test-request (java.util.HashMap.))
 	(with post-request (java.util.HashMap.))
 	(with test-board ["x" nil nil
@@ -40,4 +38,4 @@
 
 	(it "lets the computer move"
 		(should= ["x" nil nil nil "o" nil nil nil nil]
-			(make-move @test-board))))
+			(make-move @test-board)))
