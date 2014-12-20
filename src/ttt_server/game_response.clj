@@ -1,9 +1,9 @@
 (ns ttt-server.game-response
-	(:use [ttt-server.board-presenter]
-		  [clojure_tictac.players :only (best-move)]
-		  [clojure_tictac.board]
-		  [clojure_tictac.ttt-rules :only (game-over? x o)]
-		  [clojure_tictac.game-setup :only (default-board-size)]))
+	(:use [ttt-server.board-presenter :as presenter]
+		  [clojure_tictac.players :as players :only (best-move)]
+		  [clojure_tictac.board :as board]
+		  [clojure_tictac.ttt-rules :as rules :only (game-over? x o)]
+		  [clojure_tictac.game-setup :as setup :only (default-board-size)]))
 
 (defn split-body [body]
 	(clojure.string/split body #"&"))
@@ -15,8 +15,8 @@
 			(into {} parsed-body))))
 
 (defn get-current-board [request]
-	(loop [space (dec default-board-size)
-			board (make-board default-board-size)]
+	(loop [space (dec setup/default-board-size)
+			board (board/make-board setup/default-board-size)]
 		(if (= -1 space)
 			board
 			(recur
@@ -27,8 +27,8 @@
 
 (defn current-player [board]
 	(if (even? (count (filter #(not= nil %) board)))
-		x
-		o))
+		rules/x
+		rules/o))
 
 (defn get-updated-board [request]
 	(let [board (get-current-board request)
@@ -39,8 +39,8 @@
 
 
 (defn make-move [board]
-	(if (and (not= true (game-over? board)) (= o (current-player board)))
-		(assoc board (best-move board o) o)
+	(if (and (not= true (rules/game-over? board)) (= rules/o (current-player board)))
+		(assoc board (players/best-move board rules/o) rules/o)
 		board))
 
 (defn new-game-response-handler []

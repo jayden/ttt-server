@@ -1,5 +1,5 @@
 (ns ttt-server.board-presenter
-	(:use [clojure_tictac.ttt-rules :only (game-over? game-winner winner? x o)]))
+	(:use [clojure_tictac.ttt-rules :as rules :only (game-over? game-winner winner? x o)]))
 
 (defn get-space [position board]
 	(let [space (get board position)]
@@ -9,21 +9,21 @@
 
 (defn get-html-space [position board]
 	(cond
-		(= x (get-space position board))
+		(= rules/x (get-space position board))
 			(str "x<input type=\"hidden\" value=\"x\" name=\"marked-space" position "\"/>")
-		(= o (get-space position board))
+		(= rules/o (get-space position board))
 			(str "o<input type=\"hidden\" value=\"o\" name=\"marked-space" position "\"/>")
 		:else
-			(if (game-over? board)
+			(if (rules/game-over? board)
 				"&nbsp;"
 				(str "<input type=\"radio\" id=\"radio" position "\" value=\"" position "\" name=\"empty-space\"/>"
 					"<label for=\"radio" position "\">&nbsp;</label>"))))
 
 (defn get-game-conclusion [board]
 	(cond 
-		(winner? board)
-			(str "Winner is " (clojure.string/upper-case (game-winner board)) "!")
-		(game-over? board)
+		(rules/winner? board)
+			(str "Winner is " (clojure.string/upper-case (rules/game-winner board)) "!")
+		(rules/game-over? board)
 			"It's a tie!"
 		:else
 			""))
@@ -90,7 +90,7 @@
 
 (defn get-html-board [board]
 	(str "<!DOCTYPE html>"
-		 "<html><head>" (get-css-layout) "</head>"
+		 "<html><head><title>Jayden's Tic-Tac-Toe!</title>" (get-css-layout) "</head>"
 		 "<body><center><h1>" (get-page-header) "</h1><form name=\"board\" action=\"/game\" method=\"post\">"
 		 "<table>"	
 		 "<tr><td>"(get-html-space 0 board)"</td><td>"(get-html-space 1 board)"</td><td>"(get-html-space 2 board)"</td></tr>"
@@ -98,6 +98,5 @@
 		 "<tr><td>"(get-html-space 6 board)"</td><td>"(get-html-space 7 board)"</td><td>"(get-html-space 8 board)"</td></tr>"
 		 "</table>"
 		 "<br></br><input type=\"submit\" value=\"Move\" name=\"move\" />"
-		 "<input type=\"button\" value=\"Reset\" onClick=\"history.go(0)\" />"
 		 "<h3>" (get-game-conclusion board) "</h3>"
 		 "</form></center></body></html>"))

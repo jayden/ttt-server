@@ -36,7 +36,7 @@
 	(it "shows html representation of board"
 		(should= 
 			(str "<!DOCTYPE html>"
-		 		 "<html><head>" (get-css-layout) "</head>"
+				 "<html><head><title>Jayden's Tic-Tac-Toe!</title>" (get-css-layout) "</head>"
 		 		 "<body><center><h1>" (get-page-header) "</h1><form name=\"board\" action=\"/game\" method=\"post\">"
 		 		 "<table>"	
 		 		 "<tr><td>"(get-html-space 0 @test-board)"</td><td>"(get-html-space 1 @test-board)"</td><td>"(get-html-space 2 @test-board)"</td></tr>"
@@ -44,7 +44,6 @@
 		 		 "<tr><td>"(get-html-space 6 @test-board)"</td><td>"(get-html-space 7 @test-board)"</td><td>"(get-html-space 8 @test-board)"</td></tr>"
 		 		 "</table>"
 				 "<br></br><input type=\"submit\" value=\"Move\" name=\"move\" />"
-				 "<input type=\"button\" value=\"Reset\" onClick=\"history.go(0)\" />"
 		 		 "<h3>" (get-game-conclusion @test-board) "</h3>"
 		 		 "</form></center></body></html>")
 			(get-html-board @test-board)))
